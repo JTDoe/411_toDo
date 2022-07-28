@@ -8,7 +8,7 @@ class App extends React.Component {
     this.state = {
       isClicked: false,
       todos: [],
-      text: "",
+      text: " "
     };
   }
 
@@ -26,9 +26,9 @@ class App extends React.Component {
   };
 
   handleSubmit = () => {
-    todos: [ ...this.state.todos, this.state.text],
-    text: ''
-    };
+    // todos: [ ...this.state.todos, this.state.text]
+    
+ 
   };
 
   componentDidUpdate() {
