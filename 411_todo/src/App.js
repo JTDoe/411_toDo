@@ -1,4 +1,5 @@
 import React from "react";
+import { nanoid } from "nanoid";
 import "./App.css";
 
 class App extends React.Component {
@@ -7,46 +8,53 @@ class App extends React.Component {
 
     this.state = {
       isClicked: false,
-      todos: [],
-      text: " "
+      todos: [
+        { id: "1", todo: "Feed fish" },
+        { id: "2", todo: "Go to place" },
+        { id: "3", todo: "Soemthing else" },
+      ],
+      text: " ",
     };
   }
 
-  handleClick = () => {
+  handleClick = (e, id) => {
+    const filteredTodos = this.state.todos.filter((todo) => todo.id !== id);
     this.setState({
-      isClicked: !this.state.isClicked,
-    });
+      todos: filteredTodos,
+  })
   };
 
   handleChange = (event) => {
-    this.setState({
-      todos: [ ...this.state.todos, this.state.text],
-      text: ''
-    });
+    this.setState({ text: event.target.value });
   };
 
   handleSubmit = () => {
-    // todos: [ ...this.state.todos, this.state.text]
-    
- 
+    this.setState({
+      todos: [...this.state.todos, { id: nanoid(), todo: this.state.text }],
+      text: " ",
+    });
   };
 
-  componentDidUpdate() {
-    console.log(this.state.text);
-  }
+  componentDidUpdate() {}
 
   render() {
     return (
       <div className="App">
         <h2>Todo List</h2>
-        <input type="text" onChange={this.handleChange} value={this.state.text}></input>
+        <input
+          type="text"
+          onChange={this.handleChange}
+          value={this.state.text}
+        ></input>
         <button onClick={this.handleSubmit}>Submit</button>
         <ul>
-        {
-          this.state.todos.map((todo,index) => {
-            return <li>{todo}</li>
-          })
-        }
+          {this.state.todos.map(({ todo, id }) => {
+            return (
+              <li key={id} onClick={(e) => this.handleClick(e, id)}>
+                {todo}
+              </li>
+            );
+          })}
         </ul>
       </div>
     );
